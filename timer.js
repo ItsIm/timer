@@ -2,42 +2,40 @@ let hour = 0,
     minute = 0,
     second = 10,
     intervalId,
-    stopTimer = 0,
-    runTimer = 0;
+    runInterval = 1;
 
-var timer = function () {
-    if (second) {
-        second --;
-    } else {
-        second = 59;
-        if (minute) {
-            minute --;
-        } else {
-            minute = 59;
-            if(hour) {
-                hour--;
-            } else {
-                hour = 23;
-            }
-        }
-    }
+let inSecond = function (second, minute, hour) {
+    let sum = second + minute * 60 + hour * 3600;
+    return sum;
+};
+
+let sum = inSecond(second, minute, hour);
+
+let timer = function () {
+    sum --;
+};
+
+let outSecond = function () {
+    hour = Math.floor(sum / 3600);
+    minute = Math.floor((sum - hour * 3600) / 60);
+    second = Math.floor((sum - hour * 3600 - minute * 60) % 60);
     console.log("часов: " + hour + " минут: " + minute + " секунд: " + second);
-    if (!second && !minute && !hour) {
-        console.log("Время вышло!");
-        stopTimer = 1;
-    }
 };
 
-var stopTimerFunction = function () {
-    if (stopTimer) {
+let all = function() {
+    outSecond();
+    timer();
+};
+
+let stopTimer = function () {
+    all();
+    if (runInterval) {
+        intervalId = setInterval(stopTimer, 1000);
+        runInterval = 0;
+    } else if (!(sum + 1)) {
         clearInterval(intervalId);
-    } else {
-        timer();
-        if (!runTimer) {
-            intervalId = setInterval(stopTimerFunction, 1000);
-            runTimer = 1;
-        }
+        console.log("Время вышло!");
     }
 };
 
-stopTimerFunction();
+stopTimer();
