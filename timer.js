@@ -4,33 +4,20 @@ let hour = 0,
     intervalId,
     runInterval = 1;
 
-let inSecond = function (second, minute, hour) {
-    let sum = second + minute * 60 + hour * 3600;
-    return sum;
-};
-
-let sum = inSecond(second, minute, hour);
-
-let timer = function () {
-    sum --;
-};
+let sum = second + minute * 60 + hour * 3600;
 
 let outSecond = function () {
     hour = Math.floor(sum / 3600);
     minute = Math.floor((sum - hour * 3600) / 60);
     second = Math.floor((sum - hour * 3600 - minute * 60) % 60);
+    sum --;
     console.log("часов: " + hour + " минут: " + minute + " секунд: " + second);
 };
 
-let all = function() {
+let timer = function () {
     outSecond();
-    timer();
-};
-
-let stopTimer = function () {
-    all();
     if (runInterval) {
-        intervalId = setInterval(stopTimer, 1000);
+        intervalId = setInterval(timer, 1000);
         runInterval = 0;
     } else if (!(sum + 1)) {
         clearInterval(intervalId);
@@ -38,4 +25,4 @@ let stopTimer = function () {
     }
 };
 
-stopTimer();
+timer();
