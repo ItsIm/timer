@@ -1,6 +1,6 @@
 let hour = 0,
     minute = 0,
-    second = 5,
+    second = 10,
     intervalId,
     stopTimer = 0,
     runTimer = 0;
@@ -22,14 +22,14 @@ var timer = function () {
         }
     }
     console.log("часов: " + hour + " минут: " + minute + " секунд: " + second);
-    if (second == 0 && minute == 0 && hour == 0) {
+    if (!second && !minute && !hour) {
         console.log("Время вышло!");
         stopTimer = 1;
     }
 };
 
 var stopTimerFunction = function () {
-    if (stopTimer == 1) {
+    if (stopTimer) {
         clearInterval(intervalId);
     } else {
         timer();
